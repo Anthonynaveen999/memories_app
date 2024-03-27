@@ -12,7 +12,7 @@ function Post({post,setCurrentId}){
     const dispatch = useDispatch();
     return(
         <Card className={classes.card} >
-            <CardMedia image={post.selectedFile} title={post.title} style={{height : "200px"}}/>
+            <CardMedia image={post.selectedFile} title={post.title} style={{height : "150px"}}/>
             <div className={classes.overlay}>
                 <Typography variant="h6" >{post.creator}</Typography>
                 <Typography variant="body2" >{moment(post.createdAt).fromNow() }</Typography>

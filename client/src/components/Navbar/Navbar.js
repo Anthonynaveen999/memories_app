@@ -4,7 +4,7 @@ import useStyles from "./styles";
 import memories from "../../images/memories.png";
 import { Link } from "react-router-dom";
 function Navbar() {
-    const classes = useStyles();
+    const {classes} = useStyles();
     const user = null;
     return(
         <AppBar className={classes.appBar} position='static' color='inherit'>

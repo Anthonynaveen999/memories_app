@@ -1,8 +1,15 @@
 import React,{useState} from 'react';
 import { Container,Paper,Avatar, Typography, Grid,Button } from '@mui/material';
 import LockOutLinedIcon from "@mui/icons-material/LockOutlined";
+import {GoogleLogin} from'@react-oauth/google';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import useStyles from './styles';
 import Input from './Input';
+import Icon from './icon';
+import { useGoogleLogin } from '@react-oauth/google';
+import MyCustomButton from './MyCustomButton';
+
+
 const Auth = () => {
   const {classes}= useStyles();
   const [isSignUp,setIsSignUp] = useState(false);
@@ -16,8 +23,9 @@ const Auth = () => {
   const switchMode = () =>{
     setIsSignUp((prevIsSignUp)=>!prevIsSignUp);
     handleShowPassword(false);
-  }
-  const handleShowPassword = () => setShowPassword((prevShowPassword) =>!prevShowPassword)
+  }  
+  const handleShowPassword = () => setShowPassword((prevShowPassword) =>!prevShowPassword);
+
   return (
     <Container component="main" maxWidth="xs">
       <Paper className={classes.paper} elevation={3}>
@@ -42,6 +50,20 @@ const Auth = () => {
           <Button type="submit" fullWidth className={classes.submit} variant="contained" color="primary">
             {isSignUp ? 'Sign Up' : 'Sign In'}
           </Button>
+          <GoogleOAuthProvider clientId="217074573474-1kie390445tqm0f11ml2gkcijes7482b.apps.googleusercontent.com">
+            {/* <GoogleLogin
+              onSuccess={credentialResponse => {
+                console.log(credentialResponse);
+              }}
+              onError={() => {
+                console.log('Login Failed');
+              }} */}
+            {/* /> */}
+            
+            <MyCustomButton />
+
+
+          </GoogleOAuthProvider>
           <Grid container justifyContent="center">
             <Grid item>
               <Button onClick={switchMode} style={{color:"black"}}>

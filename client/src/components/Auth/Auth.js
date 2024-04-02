@@ -1,17 +1,20 @@
 import React,{useState} from 'react';
+import {useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router-dom';
 import { Container,Paper,Avatar, Typography, Grid,Button } from '@mui/material';
 import LockOutLinedIcon from "@mui/icons-material/LockOutlined";
 import {GoogleLogin} from'@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import useStyles from './styles';
 import Input from './Input';
-import Icon from './icon';
-import { useGoogleLogin } from '@react-oauth/google';
-import MyCustomButton from './MyCustomButton';
+// import MyCustomButton from './MyCustomButton';
+import { jwtDecode } from "jwt-decode";
 
 
 const Auth = () => {
   const {classes}= useStyles();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isSignUp,setIsSignUp] = useState(false);
   const [showPassword,setShowPassword] = useState(false);
   const handleSubmit = () =>{
@@ -51,16 +54,27 @@ const Auth = () => {
             {isSignUp ? 'Sign Up' : 'Sign In'}
           </Button>
           <GoogleOAuthProvider clientId="217074573474-1kie390445tqm0f11ml2gkcijes7482b.apps.googleusercontent.com">
-            {/* <GoogleLogin
+            <GoogleLogin
               onSuccess={credentialResponse => {
+                console.log(jwtDecode(credentialResponse.credential));
                 console.log(credentialResponse);
+                const data = jwtDecode(credentialResponse.credential)
+                const name = data?.name;
+                const imageUrl = data?.picture;
+                const token_id = data?.jti;
+                try {
+                  dispatch({type:"AUTH",data:{name,imageUrl,token_id}});
+                  navigate('/')
+                } catch (error) {
+                  console.log(error);
+                }
               }}
               onError={() => {
                 console.log('Login Failed');
-              }} */}
-            {/* /> */}
+              }}
+            /> 
             
-            <MyCustomButton />
+            {/* <MyCustomButton /> */}
 
 
           </GoogleOAuthProvider>

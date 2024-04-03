@@ -20,7 +20,6 @@ function Navbar() {
 
         setUser(JSON.parse(localStorage.getItem('Profile')));
     },[location])
-    console.log(user);
     return(
         <AppBar className={classes.appBar} position='static' color='inherit'>
             <div className={classes.brandContainer}>

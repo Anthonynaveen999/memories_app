@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import {useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom';
+import { signin,signup } from '../../actions/auth';
 import { Container,Paper,Avatar, Typography, Grid,Button } from '@mui/material';
 import LockOutLinedIcon from "@mui/icons-material/LockOutlined";
 import {GoogleLogin} from'@react-oauth/google';
@@ -15,12 +16,20 @@ const Auth = () => {
   const {classes}= useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const initialState = {firstName:'',lastName:'',email:'',password:'',confirmPassword:''}
   const [isSignUp,setIsSignUp] = useState(false);
   const [showPassword,setShowPassword] = useState(false);
-  const handleSubmit = () =>{
-
+  const [formData,setFormData] = useState(initialState);
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+    if(isSignUp){
+      dispatch(signup(formData,navigate));
+    }else{
+      dispatch(signin(formData,navigate));
+    }
   }
-  const handleChange = () =>{
+  const handleChange = (e) =>{
+      setFormData({ ...formData, [e.target.name]: e.target.value });
     
   }
   const switchMode = () =>{
@@ -42,7 +51,7 @@ const Auth = () => {
             isSignUp && (
               <>
               <Input name='firstName' label='First Name' handleChange={handleChange} autoFocus half/>
-              <Input name='firstName' label='First Name' handleChange={handleChange} half/>
+              <Input name='lastName' label='Last Name' handleChange={handleChange} half/>
               </>
             )
           }

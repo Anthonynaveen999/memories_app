@@ -4,27 +4,46 @@ import { Card,CardActions,CardMedia,CardContent,Typography,Button } from "@mui/m
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import ThumbUpAltOutlined from '@mui/icons-material/ThumbUpAltOutlined';
 import moment from "moment";
 import {useDispatch } from "react-redux";
 import { deletePost,likePost } from "../../../actions/posts";
 function Post({post,setCurrentId}){
    const {classes} = useStyles();
     const dispatch = useDispatch();
+    const user = JSON.parse(localStorage.getItem('Profile'));
+    const Like = () => {
+        if(post.likes.length > 0){
+            return post.likes.find((like) => like === (user?.result?._id || user?.result?.googleId))
+            ? (
+            <><ThumbUpAltIcon fontSize="small" />&nbsp;{post.likes.length}&nbsp;{ `Like${post.likes.length>1 ? 's' : ''}` }</>
+             ) : (
+                <><ThumbUpAltOutlined fontSize="small"/>&nbsp;{post.likes.length} {post.likes.length === 1 ? 'Like' : 'Likes'}</>
+             );
+        }
+        return <><ThumbUpAltOutlined fontSize="small"/>&nbsp;Like</>;
+
+    }
     return(
         <Card className={classes.card} >
             <CardMedia image={post.selectedFile} title={post.title} style={{height : "150px"}}/>
             <div className={classes.overlay}>
-                <Typography variant="h6" >{post.creator}</Typography>
+                <Typography variant="h6" >{post.name}</Typography>
                 <Typography variant="body2" >{moment(post.createdAt).fromNow() }</Typography>
             </div>
-            <div className={classes.overlay2}>
+            {
+                    (user?.result?.name === post.name) && 
+                    <div className={classes.overlay2}>
                 <Button 
                 style={{color:'white'}} 
                 size="small" 
                 onClick={()=>{setCurrentId(post._id)}}>
                     <MoreHorizIcon fontSize="default"/>
                 </Button>
-            </div>
+                </div>
+                    
+            }
+            
             <div className={classes.details}>
                 <Typography variant="body2" color="textSecondary">{post.tags.map((tag)=> (`#${tag} `))}</Typography>
             </div>
@@ -33,15 +52,17 @@ function Post({post,setCurrentId}){
                 <Typography variant="body2" color="textSecondary" component="p">{post.message}</Typography>
             </CardContent>
             <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary" onClick={() => {dispatch(likePost(post._id))}}>
-                    <ThumbUpAltIcon fontSize="small"/>
-                    &nbsp; Like &nbsp;
-                    {post.likeCount}
+                <Button size="small" color="primary" disabled={!user?.result}  onClick={() => {dispatch(likePost(post._id))}}>
+                    <Like />
                 </Button>
-                <Button size="small" color="primary" onClick={() => {dispatch(deletePost(post._id))}}>
-                    <DeleteIcon fontSize="small"/>
+                {
+                    (user?.result?.name === post.name) && 
+                    <Button size="small" color="primary" disabled={!user?.result} onClick={() => {dispatch(deletePost(post._id))}}>
+                    <DeleteIcon fontSize="small" />
                     Delete
-                </Button>
+                    </Button>
+                }
+                
             </CardActions>
         </Card>
     )

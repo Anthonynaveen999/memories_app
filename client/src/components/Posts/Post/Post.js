@@ -14,7 +14,7 @@ function Post({post,setCurrentId}){
     const user = JSON.parse(localStorage.getItem('Profile'));
     const Like = () => {
         if(post.likes.length > 0){
-            return post.likes.find((like) => like === (user?.result?._id || user?.result?.googleId))
+            return post.likes.find((like) => like === (user?.result?._id || user?.result?.sub))
             ? (
             <><ThumbUpAltIcon fontSize="small" />&nbsp;{post.likes.length}&nbsp;{ `Like${post.likes.length>1 ? 's' : ''}` }</>
              ) : (
@@ -26,21 +26,21 @@ function Post({post,setCurrentId}){
     }
     return(
         <Card className={classes.card} >
-            <CardMedia image={post.selectedFile} title={post.title} style={{height : "150px"}}/>
+            <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
             <div className={classes.overlay}>
                 <Typography variant="h6" >{post.name}</Typography>
                 <Typography variant="body2" >{moment(post.createdAt).fromNow() }</Typography>
             </div>
             {
-                    (user?.result?.name === post.name) && 
-                    <div className={classes.overlay2}>
+                    (user?.result?._id === post.creator || user?.result?.sub === post.creator) && 
+                   ( <div className={classes.overlay2}>
                 <Button 
                 style={{color:'white'}} 
                 size="small" 
                 onClick={()=>{setCurrentId(post._id)}}>
                     <MoreHorizIcon fontSize="default"/>
                 </Button>
-                </div>
+                </div> )
                     
             }
             
@@ -56,11 +56,11 @@ function Post({post,setCurrentId}){
                     <Like />
                 </Button>
                 {
-                    (user?.result?.name === post.name) && 
-                    <Button size="small" color="primary" disabled={!user?.result} onClick={() => {dispatch(deletePost(post._id))}}>
+                    (user?.result?._id === post.creator || post.creator === user?.result?.sub) && 
+                    (<Button size="small" color="primary" disabled={!user?.result} onClick={() => {dispatch(deletePost(post._id))}}>
                     <DeleteIcon fontSize="small" />
                     Delete
-                    </Button>
+                    </Button>)
                 }
                 
             </CardActions>

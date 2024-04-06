@@ -68,12 +68,10 @@ const Auth = () => {
               onSuccess={credentialResponse => {
                 console.log(jwtDecode(credentialResponse.credential));
                 console.log(credentialResponse);
-                const data = jwtDecode(credentialResponse.credential)
-                const name = data?.name;
-                const imageUrl = data?.picture;
-                const token_id = data?.jti;
+                const result = jwtDecode(credentialResponse.credential);
+                const token = credentialResponse.credential;
                 try {
-                  dispatch({type:"AUTH",data:{name,imageUrl,token_id}});
+                  dispatch({type:"AUTH",data:{result,token}});
                   navigate('/')
                 } catch (error) {
                   console.log(error);

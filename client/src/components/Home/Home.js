@@ -6,7 +6,7 @@ import {useNavigate,useLocation} from 'react-router-dom';
 import { MuiChipsInput } from 'mui-chips-input';
 import Form from '../Form/Form';
 import Posts from '../Posts/Posts';
-import { getPosts,getPostBySearch } from '../../actions/posts';
+import { getPosts,getPostsBySearch } from '../../actions/posts';
 import Pagination from '../Pagination';
 
 function useQuery() {
@@ -24,12 +24,15 @@ function Home(){
    const page = query.get('page') || 1;
    const searchQuery = query.get('search');
    const [search,setSearch] = useState('');
-   const [chips,setChips] = useState([]);
-   const handleAddChip = (chip) => setChips([...chips,chip]);
-   const handleDeleteChip = (deletedChip) => setChips( chips.filter((chip) => chip !== deletedChip));
+   const [tags,setTags] = useState([]);
+   const handleAddTag = (tag) => setTags([...tags,tag]);
+   const handleDeleteTag = (deletedTag) => setTags( tags.filter((tag) => tag !== deletedTag));
    const searchPost = () => {
-      if(search.trim()){
-         dispatch(getPostBySearch(search,chips.join(',')))
+      console.log(search);
+      console.log(tags);
+      if(search.trim() || tags){
+         dispatch(getPostsBySearch({search,tags : tags.join(',')}));
+         Navigate(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`)
       }else{
          Navigate('/');
       }
@@ -61,14 +64,14 @@ function Home(){
                         />
                         <MuiChipsInput 
                            style={{margin: '10px 0' }}
-                           value={chips}
+                           value={tags}
                            label = "Search Tags"
                            fullWidth
-                           onAddChip={handleAddChip}
-                           onDeleteChip={handleDeleteChip}
+                           onAddChip={handleAddTag}
+                           onDeleteChip={handleDeleteTag}
                            variant='outlined'
                         />
-                        <Button onClick={searchPost} color='primary' variant='contained'>Search</Button >
+                        <Button  onClick={searchPost} color='primary' variant='contained'>Search</Button >
                      </AppBar>
                      <Form currentId={currentId} setCurrentId={setCurrentId}/>
                      <Paper  elevation={6}>

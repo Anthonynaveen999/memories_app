@@ -1,6 +1,6 @@
 import React from "react";
 import useStyles from './styles';
-import { Card,CardActions,CardMedia,CardContent,Typography,Button } from "@mui/material";
+import { Card,CardActions,CardMedia,CardContent,Typography,ButtonBase,Button } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
@@ -8,9 +8,12 @@ import ThumbUpAltOutlined from '@mui/icons-material/ThumbUpAltOutlined';
 import moment from "moment";
 import {useDispatch } from "react-redux";
 import { deletePost,likePost } from "../../../actions/posts";
+import { useNavigate } from "react-router-dom";
+
 function Post({post,setCurrentId}){
    const {classes} = useStyles();
     const dispatch = useDispatch();
+    const Navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('Profile'));
     const Like = () => {
         if(post.likes.length > 0){
@@ -24,8 +27,12 @@ function Post({post,setCurrentId}){
         return <><ThumbUpAltOutlined fontSize="small"/>&nbsp;Like</>;
 
     }
+    const openPost = () => {
+        Navigate(`/posts/${post._id}`)
+    }
     return(
         <Card className={classes.card} raised elevation={6}>
+            <ButtonBase className={classes.cardAction} onClick={openPost}>
             <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
             <div className={classes.overlay}>
                 <Typography variant="h6" >{post.name}</Typography>
@@ -43,7 +50,6 @@ function Post({post,setCurrentId}){
                 </div> )
                     
             }
-            
             <div className={classes.details}>
                 <Typography variant="body2" color="textSecondary">{post.tags.map((tag)=> (`#${tag} `))}</Typography>
             </div>
@@ -51,6 +57,7 @@ function Post({post,setCurrentId}){
             <CardContent >
                 <Typography variant="body2" color="textSecondary" component="p">{post.message}</Typography>
             </CardContent>
+            </ButtonBase>
             <CardActions className={classes.cardActions}>
                 <Button size="small" color="primary" disabled={!user?.result}  onClick={() => {dispatch(likePost(post._id))}}>
                     <Like />

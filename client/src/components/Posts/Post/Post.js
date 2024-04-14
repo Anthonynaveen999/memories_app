@@ -32,12 +32,13 @@ function Post({post,setCurrentId}){
     }
     return(
         <Card className={classes.card} raised elevation={6}>
-            <ButtonBase className={classes.cardAction} onClick={openPost}>
+            <ButtonBase className={classes.cardAction} component="span" name="test" onClick={openPost}>
             <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
             <div className={classes.overlay}>
                 <Typography variant="h6" >{post.name}</Typography>
                 <Typography variant="body2" >{moment(post.createdAt).fromNow() }</Typography>
             </div>
+            </ButtonBase>
             {
                     (user?.result?._id === post.creator || user?.result?.sub === post.creator) && 
                    ( <div className={classes.overlay2}>
@@ -50,12 +51,13 @@ function Post({post,setCurrentId}){
                 </div> )
                     
             }
+            <ButtonBase className={classes.cardAction} component="span" name="test" onClick={openPost}>
             <div className={classes.details}>
                 <Typography variant="body2" color="textSecondary">{post.tags.map((tag)=> (`#${tag} `))}</Typography>
             </div>
             <Typography className={classes.title} variant="h5" gutterBottom>{post.title}</Typography>
             <CardContent >
-                <Typography variant="body2" color="textSecondary" component="p">{post.message}</Typography>
+                <Typography variant="body2" color="textSecondary" component="p">{post.message.split(' ').splice(0, 10).join(' ')}...</Typography>
             </CardContent>
             </ButtonBase>
             <CardActions className={classes.cardActions}>

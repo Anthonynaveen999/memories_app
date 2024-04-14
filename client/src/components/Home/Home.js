@@ -49,7 +49,6 @@ function Home(){
                            fullWidth 
                            value={search} 
                            onKeyDown={(ev) => {
-                              console.log(`Pressed keyCode ${ev.key}`);
                               if (ev.key === 'Enter') {
                                 searchPost();
                                 ev.preventDefault();

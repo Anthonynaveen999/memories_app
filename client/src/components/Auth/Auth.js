@@ -66,8 +66,6 @@ const Auth = () => {
           <GoogleOAuthProvider clientId="217074573474-1kie390445tqm0f11ml2gkcijes7482b.apps.googleusercontent.com">
             <GoogleLogin
               onSuccess={credentialResponse => {
-                console.log(jwtDecode(credentialResponse.credential));
-                console.log(credentialResponse);
                 const result = jwtDecode(credentialResponse.credential);
                 const token = credentialResponse.credential;
                 try {

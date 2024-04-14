@@ -12,8 +12,6 @@ const PostDetails = () => {
   const Navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
-  console.log(id);
-  console.log(post);
   useEffect(() => {
     dispatch(getPost(id));
   },[id]);
@@ -32,8 +30,6 @@ const PostDetails = () => {
   }
 const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
 const openPost = (_id) => Navigate(`/posts/${_id}`);
-
-console.log(recommendedPosts);
 
   return (
     <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>

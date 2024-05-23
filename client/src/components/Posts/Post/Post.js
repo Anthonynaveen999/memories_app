@@ -57,7 +57,7 @@ function Post({post,setCurrentId}){
             </div>
             <Typography className={classes.title} variant="h5" gutterBottom>{post.title}</Typography>
             <CardContent >
-                <Typography variant="body2" color="textSecondary" component="p">{post.message.split(' ').splice(0, 10).join(' ')}...</Typography>
+                <Typography variant="body2" color="textSecondary" component="p">{post.message.split(' ').splice(0, 20).join(' ')}...</Typography>
             </CardContent>
             </ButtonBase>
             <CardActions className={classes.cardActions}>

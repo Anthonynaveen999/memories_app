@@ -1,4 +1,4 @@
-import {FETCH_ALL,FETCH_POST,FETCH_BY_SEARCH,CREATE,UPDATE,DELETE,START_LOADING,END_LOADING} from '../constants/actionTypes'; 
+import {FETCH_ALL,FETCH_POST,FETCH_BY_SEARCH,CREATE,UPDATE,DELETE,START_LOADING,END_LOADING, COMMENT} from '../constants/actionTypes'; 
 const posts = (state = {isLoading: true, posts : [] },action) => {
     switch (action.type) {
         case START_LOADING:
@@ -22,6 +22,8 @@ const posts = (state = {isLoading: true, posts : [] },action) => {
             return {...state , posts: state.posts.map((post) => post._id === action.payload._id ? action.payload : post)};
         case DELETE:
             return {...state , posts: state.posts.filter((post) => post._id !== action.payload)};
+        case COMMENT:
+            return {...state , posts: state.posts.map((post) => post._id === action.payload.id ? action.payload : post)};
         default:
             return state;
     }

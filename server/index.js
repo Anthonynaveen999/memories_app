@@ -5,6 +5,7 @@ import cors from "cors";
 import postRoutes from './routes/posts.js';
 import userRoutes from './routes/users.js';
 import dotenv from 'dotenv';
+import path from 'path';
 const app = express();
 dotenv.config()
 app.use(bodyParser.json({limit:"30mb",extended:"true"}));
@@ -13,9 +14,9 @@ app.use(cors());
 app.use('/posts',postRoutes);
 app.use('/user',userRoutes);
 
-app.use(express.static("./client/build"));
+app.use(express.static("../client/build"));
 app.get("*",(req,res) => {
-  res.sendFile(path.resolve(__dirname,"client","build","index.html"))
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 // app.get('/',(req,res) => {
 //   res.send("Hello to Memories API.")

@@ -1,6 +1,7 @@
 import axios from 'axios';
-// const API = axios.create({baseURL:'https://memories-ph3vq7gj0-anthony-naveen-js-projects.vercel.app'});
-const API = axios.create({baseURL:'http://localhost:5000'});
+const API = axios.create({
+  baseURL: "https://memories-app.azurewebsites.net/",
+});
 
 API.interceptors.request.use((req) => {
     if(localStorage.getItem('Profile')){

@@ -9,13 +9,17 @@ const app = express();
 dotenv.config()
 app.use(bodyParser.json({limit:"30mb",extended:"true"}));
 app.use(bodyParser.urlencoded({limit:"30mb",extended:"true"}));
-const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true, //access-control-allow-credentials:true
-};
-app.use(cors(corsOptions));
+app.use(cors());
 app.use('/posts',postRoutes);
-app.use('/user',userRoutes)
+app.use('/user',userRoutes);
+
+app.use(express.static("./client/build"));
+app.get("*",(req,res) => {
+  res.sendFile(path.resolve(__dirname,"client","build","index.html"))
+});
+// app.get('/',(req,res) => {
+//   res.send("Hello to Memories API.")
+// })
 
 const PORT = process.env.PORT || 5000
 

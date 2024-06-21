@@ -12,7 +12,6 @@ app.use(bodyParser.urlencoded({limit:"30mb",extended:"true"}));
 const corsOptions = {
   origin: "http://localhost:3000",
   credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
 app.use('/posts',postRoutes);

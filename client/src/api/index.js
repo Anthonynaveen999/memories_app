@@ -1,6 +1,6 @@
 import axios from 'axios';
 const API = axios.create({
-  baseURL: "https://memories-app.azurewebsites.net/",
+  baseURL: "https://memories-app-rust.vercel.app/",
 });
 
 API.interceptors.request.use((req) => {

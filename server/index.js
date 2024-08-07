@@ -28,6 +28,9 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(staticPath, "index.html"));
 });
 
+app.get('/',(req,res) => {
+  res.send("Hello world")
+})
 
 const PORT = process.env.PORT || 5000
 
